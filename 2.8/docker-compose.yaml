@@ -2,31 +2,30 @@ version: '3'
 
 services:
   frontend:
+    container_name: frontend
     image: dr8ton/frontend
-    ports:
-      - 5000:5000
   backend:
+    container_name: backend
     image: dr8ton/backend
-    ports:
-      - 8080:8080
     environment:
       - REDIS_HOST=Redis
       - POSTGRES_HOST=db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
   Redis:
+    container_name: Redis
     image: redis
   db:
+    container_name: db
     image: postgres:13.2-alpine
     restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: password
-  adminer:  
-    image: adminer
-    restart: unless-stopped
-    ports:
-      - 8083:8080
-  nginx:
-    image: rev_proxy
+  proxy: 
+    container_name: proxy
+    image: nginx
     volumes:
-      -/etc/nginx/nginx.conf
+      - ./nginx.conf:/etc/nginx/nginx.conf
+
+
+
