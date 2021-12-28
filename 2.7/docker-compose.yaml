@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  frontend:
+    image: ml_front
+    ports:
+      - 3000:3000
+  backend: 
+    image: ml_backend
+    depends_on:
+      - training
+    ports:
+      - 5000:5000
+    volumes:
+      - model:/src/model
+  traning: 
+    image: ml_train
+    volumes:
+      - model:/src/model
+      - images:/src/imgs
+      - data:/src/data 
+
+volumes: 
+  model:
+  images: 
+  data:

@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  frontend:
+    image: dr8ton/frontend
+    ports:
+      - 5000:5000
+  backend:
+    image: dr8ton/backend
+    ports:
+      - 8080:8080
+    environment:
+      - REDIS_HOST=Redis
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+  Redis:
+    image: redis
+  db:
+    image: postgres:13.2-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: password
+  adminer:  
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8083:8080
+  nginx:
+    image: rev_proxy
