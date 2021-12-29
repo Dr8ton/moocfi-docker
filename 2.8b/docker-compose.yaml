@@ -2,12 +2,12 @@ version: '3'
 
 services:
   frontend:
+    container_name: frontend
     build: ./frontend
-    environment:
-      - REACT_APP_BACKEND_URL="http://localhost:80"
-    ports:
-      - 5000:5000
+    # environment:
+    #   - REACT_APP_BACKEND_URL="*"
   backend:
+    container_name: backend
     build: ./backend
     depends_on:
     - redis
@@ -17,10 +17,9 @@ services:
       - POSTGRES_HOST=db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - REQUEST_ORIGIN="http://localhost:80"
-    ports:
-      - 8080:8080
+      # - REQUEST_ORIGIN="*"
   Redis:
+    container_name: Redis
     image: redis
     restart: unless-stopped
   db:
