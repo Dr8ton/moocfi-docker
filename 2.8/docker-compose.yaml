@@ -4,14 +4,20 @@ services:
   frontend:
     container_name: frontend
     image: dr8ton/frontend
+    environment:
+      - REACT_APP_BACKEND_URL="*"
   backend:
     container_name: backend
     image: dr8ton/backend
+    depends_on:
+    - redis
+    - postgres
     environment:
       - REDIS_HOST=Redis
       - POSTGRES_HOST=db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
+      - REQUEST_ORIGIN="*"
   Redis:
     container_name: Redis
     image: redis
@@ -24,8 +30,7 @@ services:
   proxy: 
     container_name: proxy
     image: nginx
+    ports:
+      - 80:80
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-
-
-
