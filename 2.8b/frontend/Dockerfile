@@ -3,7 +3,7 @@
 FROM node:14
 
 ENV NODE_ENV=production
-ENV REACT_APP_BACKEND_URL="http://localhost:80"
+# ENV REACT_APP_BACKEND_URL="http://localhost:80"
 
 WORKDIR /usr/src/app
 

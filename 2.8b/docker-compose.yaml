@@ -2,13 +2,13 @@ version: '3'
 
 services:
   frontend:
-    container_name: frontend
-    image: dr8ton/frontend
+    build: ./frontend
     environment:
-      - REACT_APP_BACKEND_URL="*"
+      - REACT_APP_BACKEND_URL="http://localhost:80"
+    ports:
+      - 5000:5000
   backend:
-    container_name: backend
-    image: dr8ton/backend
+    build: ./backend
     depends_on:
     - redis
     - postgres
@@ -17,10 +17,12 @@ services:
       - POSTGRES_HOST=db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - REQUEST_ORIGIN="*"
+      - REQUEST_ORIGIN="http://localhost:80"
+    ports:
+      - 8080:8080
   Redis:
-    container_name: Redis
     image: redis
+    restart: unless-stopped
   db:
     container_name: db
     image: postgres:13.2-alpine
@@ -29,6 +31,8 @@ services:
       POSTGRES_PASSWORD: password
   proxy: 
     container_name: proxy
+    depends_on:
+      - frontend
     image: nginx
     ports:
       - 80:80
