@@ -1,0 +1,16 @@
+#BACKEND
+FROM golang:1.16
+
+WORKDIR /usr/src/app
+
+COPY ./material-applications/example-backend .
+
+ENV port = 8080
+ENV REQUEST_ORIGIN="http://localhost:80"
+RUN  go build
+
+EXPOSE 8080
+
+CMD ./server    
+
+#Frontend found in 1.12
